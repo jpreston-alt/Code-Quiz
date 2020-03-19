@@ -14,7 +14,7 @@
     border: none;
 }
 
-h1 {
+h1, h2 {
     font-weight: bold;
 }
 
@@ -32,4 +32,13 @@ h1 {
 
 .btn:focus {
     background-color: #086972;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+ul li .btn {
+    margin-top: 10px;
 }
