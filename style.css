@@ -28,6 +28,7 @@ h1, h2 {
 .btn:hover {
     background-color: #17b978;
     opacity: .5;
+    color: white;
 }
 
 .btn:focus {
