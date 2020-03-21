@@ -47,3 +47,15 @@ ul {
 ul li .btn {
     margin-top: 10px;
 }
+
+#correct-or-not {
+    font-style: italic;
+    color: #afafaf;
+    font-size: 1.4rem;
+    font-weight: lighter;
+    padding-top: 0px;
+}
+
+hr {
+    margin-bottom: 5px;
+}

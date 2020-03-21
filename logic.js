@@ -64,12 +64,13 @@ function questionsLoop() {
 function checkCorrect(question) {
     quizCardEl.addEventListener("click", function (event) {
         event.preventDefault();
+        var displayCorrEl = document.getElementById("correct-or-not");
         if (event.target.matches("button")) {
             console.log(event.target.textContent)
             if (event.target.textContent === question.corrAns) {
-                console.log("you got it right!");
+                displayCorrEl.textContent= "Correct!"
             } else {
-                console.log("you got it wrong");
+                displayCorrEl.textContent= "Wrong!";
             }
         } 
     });
