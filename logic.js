@@ -1,5 +1,10 @@
 // ********** STEPS ************* //
 
+// Create a score variable to hold quiz score
+var totalScore;
+var quizCardEl = document.getElementById("quiz-card");
+var introCardEl = document.getElementById("intro-card");
+
 // Create an function constructor for an object that holds quiz questions, answers, and correct answer
 
 function Question(ask, answers, corrAns) {
@@ -27,11 +32,9 @@ var q3 = new Question(
     "cucumbers and peanut butter"
 );
 
-var qArr = [q1, q2, q3];
-
 
 // Correlate quiz questions and answers with html
-function askQuestion(question) {
+function displayQuestion(question) {
     document.getElementById("question").textContent = question.ask;
     for (var i = 0; i < question.answers.length; i++) {
         document.getElementById("ans" + (i + 1)).textContent = question.answers[i];
@@ -41,11 +44,13 @@ function askQuestion(question) {
 // Define a function that loops through each question and:
     // Displays each question
     // Checks if answer is correct
-function nextQuestion() {
-    for (var i = 1; i < qArr.length; i++) {
-        askQuestion(i);
+function questionsLoop() {
+    var qArr = [q1, q2, q3];
+    for (var i = 0; i < qArr.length; i++) {
+        displayQuestion(i);
     }
 }
+
 
 // Define a function that checks if the user answered the question correctly
     // If correct 
@@ -56,23 +61,32 @@ function nextQuestion() {
         // Display "incorrect"
         // Subract 5 seconds from the timer
 
-
-// Create a score variable to hold quiz score
-var totalScore;
-var contentDiv = document.createElement("div");
+function checkCorrect(question) {
+    quizCardEl.addEventListener("click", function (event) {
+        event.preventDefault();
+        if (event.target.matches("button")) {
+            console.log(event.target.textContent)
+            if (event.target.textContent === question.corrAns) {
+                console.log("you got it right!");
+            } else {
+                console.log("you got it wrong");
+            }
+        } 
+    });
+}
 
 
 // Define a function that displays intro card
 function displayIntro() {
-    contentDiv.innerHTML = '<div class="card text-center col-12 col-sm-10 col-md-9 col-lg-6"><div class="intro-card"><h1 class="card-title">Coding Quiz Challenge</h1><p class="card-text">Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p><button class="btn btn-primary" id="start-btn">Start Quiz</button></div></div>'
-    document.body.appendChild(contentDiv);
+    quizCardEl.classList.add("display-none"); 
 };
 
-// Define a function that displays quiz questions
+// Define a function that starts quiz by displaying first quiz question
 function startQuiz() {
-    contentDiv.innerHTML = '<div class="card text-left col-12 col-sm-10 col-md-9 col-lg-6"><div class="quiz-card"><h2 class="card-title" id="question">Question will go here.</h2><ul><li><button class="btn" id="ans1">A: Answer 1</button></li><li><button class="btn" id="ans2">B: Answer 2</button></li><li><button class="btn" id="ans3">C: Answer 3</button></li><li><button class="btn" id="ans4">D: Answer 4</button></li></ul></div></div>'
-    document.body.appendChild(contentDiv);
-    askQuestion(q1);
+    introCardEl.classList.add("display-none");
+    quizCardEl.classList.remove("display-none");
+    displayQuestion(q1);
+    checkCorrect(q1);
 };
 
 

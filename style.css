@@ -6,6 +6,9 @@
     color: #17b978;
 }
 
+.display-none {
+    display: none;
+}
 
 .card {
     margin-top: 40px;
@@ -34,6 +37,7 @@ h1, h2 {
 .btn:focus {
     background-color: #086972;
 }
+
 
 ul {
     list-style-type: none;
