@@ -1,4 +1,3 @@
-
 /*
 ********** STEPS *************
 - Create an function constructor for an object that holds quiz questions, answers, and correct answer
@@ -44,9 +43,7 @@
 var totalScore;
 var secondsLeft = 75;
 var timerEl = document.getElementById("timer");
-var quizCardEl = document.getElementById("quiz-card");
 var introCardEl = document.getElementById("intro-card");
-var displayCorrEl = document.getElementById("correct-or-not");
 
 // Function constructor for Question object
 function Question(ask, answers, corrAns) {
@@ -76,7 +73,7 @@ var q3 = new Question(
 
 var q4 = new Question(
     "Which is an example of an event handler?",
-    ['"click"', '"keydown"',"A function that is called when an event occurs", "Both A and B"],
+    ['"click"', '"keydown"', "A function that is called when an event occurs", "Both A and B"],
     "A function that is called when an event occurs"
 );
 
@@ -89,7 +86,16 @@ var q5 = new Question(
 // array of question object instances
 var qArr = [q1, q2, q3, q4, q5];
 
-// funtion for displaying questions on UI
+
+
+// function for creating new question card element
+function addElement() {
+    var newCard = document.createElement("div");
+    newCard.innerHTML = '<div class="card text-left col-12 col-sm-10 col-md-9 col-lg-6" id = "quiz-card"><div><h2 class="card-title" id="question">Question will go here.</h2><ul><li><button class="btn" id="ans1">A: Answer 1</button></li><li><button class="btn" id="ans2">B: Answer 2</button></li><li><button class="btn" id="ans3">C: Answer 3</button></li><li><button class="btn" id="ans4">D: Answer 4</button></li></ul><div><p><hr><span id="correct-or-not"></span></p></div></div></div>'
+    document.body.appendChild(newCard);
+}
+
+// function for displaying questions and answers on newly created quiz card element
 function displayQuestion(question) {
     document.getElementById("question").textContent = question.ask;
     for (var i = 0; i < question.answers.length; i++) {
@@ -97,9 +103,28 @@ function displayQuestion(question) {
     }
 };
 
+// function for removing quiz card element after it has been answered
+function removeElement() {
+    var newCard = document.getElementById("quiz-card");
+    newCard.parentNode.removeChild(newCard);
+}
+
+// function for moving on to the next question or ending the game if there are not more questions left. removes quiz card element before moving on to next question and creating a new element
+function nextQuestion(question) {
+    if ((qArr.indexOf(question) + 1) < qArr.length) {
+        removeElement();
+        quizQuestion(qArr[qArr.indexOf(question) + 1]);
+    } else {
+        console.log("quiz is over!")
+        // gameOver();
+    }
+};
+
 // checks if answer is correct when an answer is clicked on.
 // display correct or wrong, if correct move on to next question.
 function checkCorrect(question) {
+    var quizCardEl = document.getElementById("quiz-card");
+    var displayCorrEl = document.getElementById("correct-or-not");
     quizCardEl.addEventListener("click", function (event) {
         event.preventDefault();
         if (event.target.matches("button")) {
@@ -108,37 +133,32 @@ function checkCorrect(question) {
                 displayCorrEl.textContent = "Correct!";
                 totalScore++;
                 console.log(totalScore);
-                if ((qArr.indexOf(question) + 1) < qArr.length){
-                    nextQuestion(qArr[qArr.indexOf(question) + 1]);
-                } else {
-                    console.log("quiz is over!")
-                    secondsLeft = secondsLeft - 5;
-                }
+                nextQuestion(question);
             } else {
                 displayCorrEl.textContent = "Wrong!";
+                secondsLeft = secondsLeft - 5;
             }
         }
     });
 };
 
-// takes the user to the next question, called in the checkCorrect function
-function nextQuestion(question) {
+// function for each quiz question: create new element, display question in new element, check if answer is correct
+function quizQuestion(question) {
+    addElement();
     displayQuestion(question);
     checkCorrect(question);
 };
 
+
 // displays quiz card, hides intro card, starts quiz
 function startQuiz() {
     introCardEl.classList.add("display-none");
-    quizCardEl.classList.remove("display-none");
     startTimer();
-    displayQuestion(q1);
-    checkCorrect(q1);
+    quizQuestion(q1);
 };
 
 // defines initialize function
 function init() {
-    quizCardEl.classList.add("display-none");
     totalScore = 0;
     document.getElementById("start-btn").addEventListener("click", startQuiz);
 };
@@ -149,19 +169,23 @@ function init() {
 //     - When time reaches 0 call game over function
 
 function startTimer() {
-    var timer = setInterval(function() {
+    var timer = setInterval(function () {
         secondsLeft--;
         timerEl.textContent = secondsLeft;
 
         if (secondsLeft === 0) {
             clearInterval(timer);
             console.log("game over!");
+            // gameOver();
         }
 
     }, 1000);
 };
 
+function gameOver() {
+    
+};
+
 // calls initialze function to start program
 init();
-
 
