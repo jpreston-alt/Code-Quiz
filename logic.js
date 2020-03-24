@@ -52,10 +52,13 @@
 
 
 var secondsLeft;
+var finalScore;
 var timerEl = document.getElementById("timer");
 var introCardEl = document.getElementById("intro-card");
 var finalScoreEl = document.getElementById("final-score");
 var finishedCardEl = document.getElementById("finished-card");
+var highscoreCardEl = document.getElementById("highscores-card");
+var submitScoreEl = document.getElementById("submit-high-score");
 
 // Function constructor for Question object
 function Question(ask, answers, corrAns) {
@@ -190,13 +193,46 @@ function startTimer() {
 
 };
 
+// Create a function that gets called when the quiz is finished. displays final score card, hides quiz cards, saves final score 
 function finishQuiz() {
     finishedCardEl.classList.remove("display-none");
     var quizCardEl = document.getElementById("quiz-card");
     quizCardEl.classList.add("display-none");
     finalScoreEl.textContent = secondsLeft;
     clearInterval(timer);
+    finalScore = secondsLeft;
+    console.log(finalScore);
 };
+
+// Create a function that submits the users high score and takes user to high score screen
+function submitHighScore(event) {
+    event.preventDefault();
+    
+    finishedCardEl.classList.add("display-none");
+    highscoreCardEl.classList.remove("display-none");
+
+    var highscoreArr = [];
+
+    var initials = document.getElementById("initials-input").value;
+
+    highscoreArr.push({initials, finalScore});
+
+    var highscoreLi = document.createElement("li");
+    highscoreLi.textContent = initials + " - " + finalScore;
+    document.getElementById("highscore-list").append(highscoreLi); 
+
+
+
+
+    console.log("you hit the submit button");
+    console.log(initials);
+    console.log(highscoreArr);
+
+    
+};
+
+// adds event listener to submit score button
+submitScoreEl.addEventListener("click", submitHighScore);
 
 // calls initialze function to start program
 init();
