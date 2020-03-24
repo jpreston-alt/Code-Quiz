@@ -17,18 +17,19 @@
     border: none;
 }
 
-h1, h2 {
+h1, h2, h3 {
     font-weight: bold;
 }
 
-.btn {
+.btn, button {
     padding: 3px 15px;
     color: white;
     background-color: #17b978;
     border: none;
+    border-radius: 5px;
 }
 
-.btn:hover {
+.btn:hover, button:hover {
     background-color: #17b978;
     opacity: .5;
     color: white;
