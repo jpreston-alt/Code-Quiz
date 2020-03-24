@@ -127,7 +127,7 @@ function nextQuestion(question) {
             quizQuestion(qArr[qArr.indexOf(question) + 1]);
         } else {
             console.log("quiz is over!")
-            finished();
+            finishQuiz();
         }
     }, 500)
 };
@@ -184,20 +184,18 @@ function startTimer() {
 
         if (secondsLeft <= 0) {
             clearInterval(timer);
-            finished();
+            finishQuiz();
         }
     }, 1000);
 
 };
 
-function finished() {
+function finishQuiz() {
     finishedCardEl.classList.remove("display-none");
     var quizCardEl = document.getElementById("quiz-card");
     quizCardEl.classList.add("display-none");
     finalScoreEl.textContent = secondsLeft;
     clearInterval(timer);
-
-
 };
 
 // calls initialze function to start program
