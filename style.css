@@ -2,7 +2,7 @@
     padding: 5px 10px;
 }
 
-.highscore {
+#view-highscore {
     color: #17b978;
 }
 
@@ -59,4 +59,9 @@ ul li .btn {
 
 hr {
     margin-bottom: 5px;
+}
+
+ol {
+    background-color: #dbf1e8;
+    color: black;
 }

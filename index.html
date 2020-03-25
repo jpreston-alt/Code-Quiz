@@ -14,11 +14,11 @@
 
     <div class = "header row">
         <div class="highscore col">
-            <a href="" class = "highscore">View Highscores</a>
+            <a href="" id="view-highscore">View Highscores</a>
         </div>
 
         <div class="col text-right">
-            <p>Time Remaining: <span id = "timer">25</span></p>
+            <p>Time Remaining: <span id = "timer">75</span></p>
         </div>
     </div>
     
@@ -50,7 +50,7 @@
         </div>
     </div> -->
 
-        <div class="card display-none" id="finished-card" style="width: 29rem;">
+        <div class="card" id="finished-card" style="width: 29rem;">
             <div class="card-body">
                 <h3 class="card-title">All Done!</h3>
                 <p class="card-text">You final score is <span id="final-score"></span>.</p>
@@ -68,12 +68,12 @@
             </div>
         </div>
 
-            <div class="card display-none" id="highscores-card" style="width: 29rem;">
+            <div class="card" id="highscores-card" style="width: 29rem;">
                 <div class="card-body">
                     <h2 class="card-title">Highscores</h2>
                     <ol id="highscore-list"></ol>
-                    <button class="btn btn-primary">Go Back</button>
-                    <button class="btn btn-primary">Clear High Scores</button>
+                    <button class="btn btn-primary" id="go-back-btn">Go Back</button>
+                    <button class="btn btn-primary" id="clear-scores-btn">Clear High Scores</button>
                 </div>
             </div>
 

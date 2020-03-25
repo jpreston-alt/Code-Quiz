@@ -59,6 +59,9 @@ var finalScoreEl = document.getElementById("final-score");
 var finishedCardEl = document.getElementById("finished-card");
 var highscoreCardEl = document.getElementById("highscores-card");
 var submitScoreEl = document.getElementById("submit-high-score");
+var viewHighscoreEl = document.getElementById("view-highscore");
+var goBackEl = document.getElementById("go-back-btn");
+var clearScoresEl = document.getElementById("clear-scores-btn");
 
 // Function constructor for Question object
 function Question(ask, answers, corrAns) {
@@ -104,7 +107,7 @@ var qArr = [q1, q2, q3, q4, q5];
 // function for creating new question card element
 function addElement() {
     var newQuestionCard = document.createElement("div");
-    newQuestionCard.innerHTML = '<div class="card text-left col-12 col-sm-10 col-md-9 col-lg-6" id = "quiz-card"><div><h2 class="card-title" id="question">Question will go here.</h2><ul><li><button class="btn" id="ans1">A: Answer 1</button></li><li><button class="btn" id="ans2">B: Answer 2</button></li><li><button class="btn" id="ans3">C: Answer 3</button></li><li><button class="btn" id="ans4">D: Answer 4</button></li></ul><div><p><hr><span id="correct-or-not"></span></p></div></div></div>'
+    newQuestionCard.innerHTML = '<div class="card text-left col-12 col-sm-10 col-md-9 col-lg-6" id = "quiz-card"><div><h2 class="card-title" id="question">Question will go here.</h2><ul><li><button class="btn" id="ans1">A: Answer 1</button></li><li><button class="btn" id="ans2">B: Answer 2</button></li><li><button class="btn" id="ans3">C: Answer 3</button></li><li><button class="btn" id="ans4">D: Answer 4</button></li></ul><div><p><span id="correct-or-not"></span></p></div></div></div>'
     document.body.appendChild(newQuestionCard);
 }
 
@@ -125,8 +128,8 @@ function removeElement() {
 // function for moving on to the next question or ending the game if there are no more questions left. removes quiz card element before moving on to next question and creating a new element
 function nextQuestion(question) {
     setTimeout(function(){
+        removeElement();
         if ((qArr.indexOf(question) + 1) < qArr.length) {
-            removeElement();
             quizQuestion(qArr[qArr.indexOf(question) + 1]);
         } else {
             console.log("quiz is over!")
@@ -145,15 +148,20 @@ function checkCorrect(question) {
         if (event.target.matches("button")) {
             console.log(event.target.textContent)
             if (event.target.textContent === question.corrAns) {
-                displayCorrEl.textContent = "Correct!";
+                displayCorrEl.innerHTML = "<hr>Correct!";
                 nextQuestion(question);
             } else {
-                displayCorrEl.textContent = "Wrong!";
-                secondsLeft = secondsLeft - 5;
+                displayCorrEl.innerHTML = "<hr>Wrong!";
+                if((secondsLeft - 10) < 10) {
+                    secondsLeft = 1;
+                } else {
+                    secondsLeft = secondsLeft - 10;
+                }   
             }
         }
     });
 };
+
 
 // function for each quiz question: create new element, display question in new element, check if answer is correct
 function quizQuestion(question) {
@@ -171,7 +179,11 @@ function startQuiz() {
 
 // defines initialize function
 function init() {
-    secondsLeft = 25;
+    // localStorage.getItem("highscores");
+    introCardEl.classList.remove("display-none");
+    finishedCardEl.classList.add("display-none");
+    highscoreCardEl.classList.add("display-none");
+    secondsLeft = 75;
     document.getElementById("start-btn").addEventListener("click", startQuiz);
 };
 
@@ -196,43 +208,42 @@ function startTimer() {
 // Create a function that gets called when the quiz is finished. displays final score card, hides quiz cards, saves final score 
 function finishQuiz() {
     finishedCardEl.classList.remove("display-none");
-    var quizCardEl = document.getElementById("quiz-card");
-    quizCardEl.classList.add("display-none");
     finalScoreEl.textContent = secondsLeft;
     clearInterval(timer);
     finalScore = secondsLeft;
-    console.log(finalScore);
 };
 
 // Create a function that submits the users high score and takes user to high score screen
 function submitHighScore(event) {
     event.preventDefault();
-    
-    finishedCardEl.classList.add("display-none");
-    highscoreCardEl.classList.remove("display-none");
 
     var highscoreArr = [];
-
     var initials = document.getElementById("initials-input").value;
-
-    highscoreArr.push({initials, finalScore});
-
     var highscoreLi = document.createElement("li");
-    highscoreLi.textContent = initials + " - " + finalScore;
-    document.getElementById("highscore-list").append(highscoreLi); 
 
+    if (initials.trim() !== "") {
+        finishedCardEl.classList.add("display-none");
+        highscoreCardEl.classList.remove("display-none");
 
+        highscoreArr.push({ initials, finalScore });
 
+        highscoreLi.textContent = initials + " - " + finalScore;
+        document.getElementById("highscore-list").append(highscoreLi);
 
-    console.log("you hit the submit button");
-    console.log(initials);
-    console.log(highscoreArr);
-
-    
+        // var JSONhighscores = JSON.stringify(highscoreArr);
+        // localStorage.setItem("highscores", JSONhighscores);
+    } 
 };
 
 // adds event listener to submit score button
 submitScoreEl.addEventListener("click", submitHighScore);
+goBackEl.addEventListener("click", function(event) {
+    event.preventDefault();
+    init();
+    console.log("pressed");
+});
+
+
 
 // calls initialze function to start program
 init();
