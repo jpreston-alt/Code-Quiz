@@ -66,6 +66,8 @@ var submitScoreEl = document.getElementById("submit-high-score");
 var viewHighscoreEl = document.getElementById("view-highscore");
 var goBackEl = document.getElementById("go-back-btn");
 var clearScoresEl = document.getElementById("clear-scores-btn");
+var initialsInputEl = document.getElementById("initials-input");
+var highscoreListEl = document.getElementById("highscore-list");
 
 // Function constructor for Question object
 function Question(ask, answers, corrAns) {
@@ -201,18 +203,16 @@ function askQuestion(question) {
     checkCorrect(question);
 };
 
-// function that gets called when the quiz is finished. displays final score card, hides quiz cards, saves final score 
+// function that gets called when the quiz is finished. saves final score, displays finished page and final score. gets called if timer reaches zero or all questions are answered
 function finishQuiz() {
     displayFinished();
-    finalScoreEl.textContent = secondsLeft;
     clearInterval(timer);
+    finalScoreEl.textContent = secondsLeft;
     finalScore = secondsLeft;
 };
 
-// defines initialize function
+// defines initialize function: dispays intro page, resets seconds, clears any existing timers, pulls from local storage
 function init() {
-    // var storedScores = localStorage.getItem("highscores");
-    // highscoreArr = JSON.parse(storedScores);
     
     secondsLeft = 75;
     timerEl.textContent = secondsLeft;
@@ -222,7 +222,6 @@ function init() {
 };
 
 // Create a timer function
-
 function startTimer() {
     clearInterval(timer);
     timer = setInterval(function () {
@@ -238,27 +237,42 @@ function startTimer() {
 
 };
 
-
-
-// Create a function that submits the users high score and takes user to high score screen
-function submitHighScore(event) {
-    event.preventDefault();
-
-    var initials = document.getElementById("initials-input").value;
-    var highscoreLi = document.createElement("li");
+// adds user score to high score list
+function addNewHighscore() {
+    var initials = initialsInputEl.value;
 
     if (initials.trim() !== "") {
-        displayHighscores
-    ();
-
+        var li = document.createElement("li");
         highscoreArr.push({ initials, finalScore });
+        li.textContent = initials + " - " + finalScore;
+        highscoreListEl.append(li);
+    }
+    setLocalStorage();
+};
 
-        highscoreLi.textContent = initials + " - " + finalScore;
-        document.getElementById("highscore-list").append(highscoreLi);
+// renders high scores from local storage
+function renderHighscores() {
+    for (var i = 0; i < highscoreArr.length; i++) {
+        var li = document.createElement("li");
+        var name = highscoreArr[i].initials;
+        var score = highscoreArr[i].finalScore;
+        li.textContent = name + " - " + score;
+        highscoreListEl.append(li);
+    }
+};
 
-        var JSONhighscores = JSON.stringify(highscoreArr);
-        localStorage.setItem("highscores", JSONhighscores);
-    } 
+// sets local storage
+function setLocalStorage() {
+    var JSONhighscores = JSON.stringify(highscoreArr);
+    localStorage.setItem("highscores", JSONhighscores);
+};
+
+// pulls from local storage
+function getLocalStorage() {
+    var scores = localStorage.getItem("highscores");
+    var JSONscores = JSON.parse(scores);
+    highscoreArr = JSONscores;
+    renderHighscores();
 };
 
 // adds event litsener to start quiz button on intro page
@@ -270,7 +284,11 @@ document.getElementById("start-btn").addEventListener("click", function(event) {
 });
 
 // adds event listener to submit score button on quiz finished page
-submitScoreEl.addEventListener("click", submitHighScore);
+submitScoreEl.addEventListener("click", function(event) {
+    event.preventDefault();
+    addNewHighscore();
+    displayHighscores();
+});
 
 // adds event listener to go back button on high score page
 goBackEl.addEventListener("click", function(event) {
@@ -282,6 +300,7 @@ goBackEl.addEventListener("click", function(event) {
 clearScoresEl.addEventListener("click", function(event) {
     event.preventDefault();
     highscoreArr = [];
+    setLocalStorage();
     document.getElementById("highscore-list").remove();
 });
 
@@ -290,10 +309,12 @@ viewHighscoreEl.addEventListener("click", function(event) {
     event.preventDefault();
     displayHighscores();
     removeElement();
-})
+});
 
 
 
 // calls initialze function to start program
+getLocalStorage();
 init();
+
 
