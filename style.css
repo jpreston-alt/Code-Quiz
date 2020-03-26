@@ -65,3 +65,7 @@ ol {
     background-color: #dbf1e8;
     color: black;
 }
+
+#highscores-title {
+    margin-bottom: 1.5rem;
+}

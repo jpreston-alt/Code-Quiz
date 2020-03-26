@@ -12,12 +12,12 @@
 </head>
 <body>
 
-    <div class = "header row">
+    <div class = "header row" id="header">
         <div class="highscore col">
             <a href="" id="view-highscore">View Highscores</a>
         </div>
 
-        <div class="col text-right">
+        <div class="col text-right" id="time-header">
             <p>Time Remaining: <span id = "timer">75</span></p>
         </div>
     </div>
@@ -70,7 +70,7 @@
 
             <div class="card" id="highscores-card" style="width: 29rem;">
                 <div class="card-body">
-                    <h2 class="card-title">Highscores</h2>
+                    <h2 class="card-title" id= "highscores-title">Highscores</h2>
                     <ol id="highscore-list"></ol>
                     <button class="btn btn-primary" id="go-back-btn">Go Back</button>
                     <button class="btn btn-primary" id="clear-scores-btn">Clear High Scores</button>
