@@ -183,13 +183,14 @@ function finishQuiz() {
 function navBeginning() {
     secondsLeft = 75;
     timerEl.textContent = secondsLeft;
-    // clearInterval(timer);
+    clearInterval(timer);
     displayIntro();
 };
 
 // Create a timer function
 function startTimer() {
-
+    clearInterval(timer);
+    console.log("timer has started")
     timer = setInterval(function () {
         secondsLeft--;
 
