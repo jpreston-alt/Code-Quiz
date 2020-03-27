@@ -1,7 +1,5 @@
-
-// define global variables
+// Pull elements you need from HTML- save to variables
 var timerEl = document.getElementById("timer");
-var timeHeaderEl = document.getElementById("time-header");
 var headerEl = document.getElementById("header");
 var introCardEl = document.getElementById("intro-card");
 var finalScoreEl = document.getElementById("final-score");
@@ -12,8 +10,8 @@ var viewHighscoreEl = document.getElementById("view-highscore");
 var goBackEl = document.getElementById("go-back-btn");
 var clearScoresEl = document.getElementById("clear-scores-btn");
 var initialsInputEl = document.getElementById("initials-input");
-var highscoreListEl = document.getElementById("highscore-list");
 
+// Define global variables
 var timer;
 var secondsLeft;
 var finalScore;
@@ -26,7 +24,7 @@ function Question(ask, answers, corrAns) {
     this.corrAns = corrAns;
 };
 
-// Instances of Question object
+// Instances of Question object (quiz questions)
 var q1 = new Question(
     "An element that is postitioned relative to it's nearest positioned ancestor has been assigned _______ positioning.",
     ["Static", "Relative", "Absolute", "Fixed"],
@@ -57,10 +55,10 @@ var q5 = new Question(
     "event.stopPropagation();"
 );
 
-// array of question object instances
+// Save questions to an array
 var qArr = [q1, q2, q3, q4, q5];
 
-// functions for defining which screen is displayed
+// Function for displaying intro screen
 function displayIntro() {
     introCardEl.classList.remove("display-none");
     finishedCardEl.classList.add("display-none");
@@ -69,6 +67,7 @@ function displayIntro() {
     rmvQuizCardEl();
 };
 
+// Function for displaying quiz screen
 function displayQuiz() {
     introCardEl.classList.add("display-none");
     finishedCardEl.classList.add("display-none");
@@ -76,14 +75,7 @@ function displayQuiz() {
     headerEl.classList.remove("display-none");
 };
 
-function displayHighscores() {
-    headerEl.classList.add("display-none");
-    introCardEl.classList.add("display-none");
-    finishedCardEl.classList.add("display-none");
-    highscoreCardEl.classList.remove("display-none");
-    rmvQuizCardEl();
-};
-
+// Function for displaying screen when quiz is finished
 function displayFinished() {
     headerEl.classList.remove("display-none");
     introCardEl.classList.add("display-none");
@@ -92,15 +84,24 @@ function displayFinished() {
     rmvQuizCardEl();
 };
 
-// function for creating new question card element
+// Function for displaying high scores screen
+function displayHighscores() {
+    headerEl.classList.add("display-none");
+    introCardEl.classList.add("display-none");
+    finishedCardEl.classList.add("display-none");
+    highscoreCardEl.classList.remove("display-none");
+    rmvQuizCardEl();
+};
+
+// Function for creating new question card element
 function addElement() {
     var questionCardEl = document.createElement("div");
     questionCardEl.innerHTML = '<div class="card text-left col-12 col-sm-10 col-md-9 col-lg-6" id = "quiz-card"><div><h2 class="card-title" id="question">Question will go here.</h2><ul><li><button class="btn" id="ans1">A: Answer 1</button></li><li><button class="btn" id="ans2">B: Answer 2</button></li><li><button class="btn" id="ans3">C: Answer 3</button></li><li><button class="btn" id="ans4">D: Answer 4</button></li></ul><div><p><span id="correct-or-not"></span></p></div></div></div>'
     document.body.appendChild(questionCardEl);
 };
 
-// function for rendering questions and answers on new card element
-function renderQuestion(question) {
+// Function for displaying each question and checking answers
+function askQuestion(question) {
     // add quiz card element
     addElement();
 
@@ -109,12 +110,12 @@ function renderQuestion(question) {
     for (var i = 0; i < question.answers.length; i++) {
         document.getElementById("ans" + (i + 1)).textContent = question.answers[i];
     }
-    // check if correct
+    // check if answer is correct
     checkCorrect(question);
 };
 
 
-// function for checking if answer is correct
+// Function for checking if answer is correct
 function checkCorrect(question) {
     var quizCardEl = document.getElementById("quiz-card");
     var displayCorrEl = document.getElementById("correct-or-not");
@@ -129,6 +130,8 @@ function checkCorrect(question) {
             // checks if answer is correct
             if (event.target.textContent === question.corrAns) {
                 displayCorrEl.innerHTML = "<hr>Correct!";
+
+                // if correct move on to next question
                 nextQuestion(question);
             } else {
                 displayCorrEl.innerHTML = "<hr>Wrong!";
@@ -144,7 +147,7 @@ function checkCorrect(question) {
     });
 };
 
-// function for moving on to the next question or ending quiz if questions are finished
+// Function for checking if there are more quesiton- if yes ask next question, if no end quiz
 function nextQuestion(question) {
     setTimeout(function () {
         // remove quiz card element
@@ -152,7 +155,7 @@ function nextQuestion(question) {
 
         // if there are more questions left render next question, else finsih quiz
         if ((qArr.indexOf(question) + 1) < qArr.length) {
-            renderQuestion(qArr[qArr.indexOf(question) + 1]);
+            askQuestion(qArr[qArr.indexOf(question) + 1]);
         } else {
             finishQuiz();
         }
@@ -167,8 +170,7 @@ function rmvQuizCardEl() {
     };
 };
 
-
-// function that gets called when the quiz is finished- saves final score, displays finished page and final score, stops timer
+// Function that gets called when the quiz is finished- saves final score, displays finished page, stops timer
 function finishQuiz() {
     displayFinished();
     clearInterval(timer);
@@ -176,7 +178,7 @@ function finishQuiz() {
     finalScore = secondsLeft;
 };
 
-// dispays intro page, resets seconds, clears any existing timers
+// Function that navigates to and resets intro page- resets seconds, clears any existing timers
 function navBeginning() {
     secondsLeft = 75;
     timerEl.textContent = secondsLeft;
@@ -193,6 +195,7 @@ function startTimer() {
         // update timerEl every second as timer counds down
         timerEl.textContent = secondsLeft;
 
+        // when timer reaches zero stop timer and call finish function
         if (secondsLeft <= 0) {
             clearInterval(timer);
             finishQuiz();
@@ -200,9 +203,9 @@ function startTimer() {
     }, 1000);
 };
 
-// adds user score to high score list
+// Function that adds user score to high score list
 function addNewHighscore() {
-    // gets value from user input
+    // gets initials from user input
     var initials = initialsInputEl.value;
 
     // checks to make sure input is not blank
@@ -214,28 +217,17 @@ function addNewHighscore() {
         li.textContent = initials + " - " + finalScore;
         document.getElementById("highscore-list").append(li);
     }
-    // pushes input to local storage
+    // pushes new score to local storage
     setLocalStorage();
 };
 
-// renders high scores from local storage
-function renderHighscores() {
-    for (var i = 0; i < highscoreArr.length; i++) {
-        var li = document.createElement("li");
-        var name = highscoreArr[i].initials;
-        var score = highscoreArr[i].finalScore;
-        li.textContent = name + " - " + score;
-        document.getElementById("highscore-list").append(li);
-    }
-};
-
-// sets local storage
+// Function that sets local storage
 function setLocalStorage() {
     var JSONhighscores = JSON.stringify(highscoreArr);
     localStorage.setItem("highscores", JSONhighscores);
 };
 
-// ititialize function - pulls from local storage, renders high scores, opens begining page
+// Ititialize function - pulls from local storage, renders high scores, opens intro page
 function init() {
     var scores = localStorage.getItem("highscores");
     var JSONscores = JSON.parse(scores);
@@ -244,36 +236,54 @@ function init() {
     navBeginning();
 };
 
-// adds event litsener to start quiz button on intro page
+// Function that renders high scores from local storage
+function renderHighscores() {
+    for (var i = 0; i < highscoreArr.length; i++) {
+        // creates new element
+        var li = document.createElement("li");
+
+        // pulls properties from parse highscoreArr- appends them to list
+        var name = highscoreArr[i].initials;
+        var score = highscoreArr[i].finalScore;
+        li.textContent = name + " - " + score;
+        document.getElementById("highscore-list").append(li);
+    }
+};
+
+// Add event litsener to start quiz button on intro page
 document.getElementById("start-btn").addEventListener("click", function(event) {
     event.preventDefault();
     displayQuiz();
     startTimer();
-    renderQuestion(q1);
+    askQuestion(q1);
 });
 
-// adds event listener to submit score button on quiz finished page
+// A event listener to submit score button on quiz finished page
 submitScoreEl.addEventListener("click", function(event) {
     event.preventDefault();
     addNewHighscore();
     displayHighscores();
 });
 
-// adds event listener to go back button on high score page
+// A event listener to go back button on high score page
 goBackEl.addEventListener("click", function(event) {
     event.preventDefault();
+
+    // navigate to intro page
     navBeginning();
 });
 
-// adds event listener to clear high scores button on high score page
+// Add event listener to clear high scores button on high score page
 clearScoresEl.addEventListener("click", function(event) {
     event.preventDefault();
+
+    // clear scores array, update local storage, clear highscores list
     highscoreArr = [];
     setLocalStorage();
     document.getElementById("highscore-list").innerHTML = "";
 });
 
-// adds event listener for "view highscore" link
+// Add event listener for "view highscore" link
 viewHighscoreEl.addEventListener("click", function(event) {
     event.preventDefault();
     displayHighscores();

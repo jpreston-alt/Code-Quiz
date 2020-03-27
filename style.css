@@ -1,13 +1,15 @@
+
+/***** ALL PAGES *****/
+.display-none {
+    display: none;
+}
+
 .header {
     padding: 5px 10px;
 }
 
-#view-highscore {
-    color: #17b978;
-}
-
-.display-none {
-    display: none;
+h1, h2, h3 {
+    font-weight: bold;
 }
 
 .card {
@@ -15,10 +17,6 @@
     margin-left: auto;
     margin-right: auto;
     border: none;
-}
-
-h1, h2, h3 {
-    font-weight: bold;
 }
 
 .btn, button {
@@ -35,11 +33,9 @@ h1, h2, h3 {
     color: white;
 }
 
-/* .btn:focus {
-    background-color: #086972;
-} */
 
 
+/***** QUESTION PAGES *****/
 ul {
     list-style-type: none;
     padding-left: 0px;
@@ -47,6 +43,10 @@ ul {
 
 ul li .btn {
     margin-top: 10px;
+}
+
+hr {
+    margin-bottom: 5px;
 }
 
 #correct-or-not {
@@ -57,15 +57,18 @@ ul li .btn {
     padding-top: 0px;
 }
 
-hr {
-    margin-bottom: 5px;
+
+
+/***** HIGH SCORE PAGE *****/
+#highscores-title {
+    margin-bottom: 1.5rem;
+}
+
+#view-highscore {
+    color: #17b978;
 }
 
 ol {
     background-color: #dbf1e8;
     color: black;
-}
-
-#highscores-title {
-    margin-bottom: 1.5rem;
 }

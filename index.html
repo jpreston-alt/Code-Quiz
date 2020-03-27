@@ -12,6 +12,7 @@
 </head>
 <body>
 
+    <!-- header row holds highscores link and timer -->
     <div class = "header row" id="header">
         <div class="highscore col">
             <a href="" id="view-highscore">View Highscores</a>
@@ -22,7 +23,7 @@
         </div>
     </div>
     
-    
+    <!-- intro card -->
     <div class="card text-center col-12 col-sm-10 col-md-9 col-lg-6" id = "intro-card">
         <div>
             <h1 class="card-title">Coding Quiz Challenge</h1>
@@ -31,7 +32,7 @@
         </div>
     </div>
 
-
+    <!-- question card - to be creaetd when needed -->
     <!-- <div class="card text-left col-12 col-sm-10 col-md-9 col-lg-6" id = "quiz-card">
         <div>
             <h2 class="card-title" id = "question">Question will go here.</h2>
@@ -50,32 +51,34 @@
         </div>
     </div> -->
 
-        <div class="card" id="finished-card" style="width: 29rem;">
-            <div class="card-body">
-                <h3 class="card-title">All Done!</h3>
-                <p class="card-text">You final score is <span id="final-score"></span>.</p>
-                <form class="row">
-                    <div class="col">
-                        <label>Enter initials:</label>
-                    </div>
-                    <div class="col">
-                        <input type="text" id="initials-input">
-                    </div>
-                    <div class="col">
-                        <button class="btn btn-primary" id = "submit-high-score">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-            <div class="card" id="highscores-card" style="width: 29rem;">
-                <div class="card-body">
-                    <h2 class="card-title" id= "highscores-title">Highscores</h2>
-                    <ol id="highscore-list"></ol>
-                    <button class="btn btn-primary" id="go-back-btn">Go Back</button>
-                    <button class="btn btn-primary" id="clear-scores-btn">Clear High Scores</button>
+    <!-- finished card -->
+    <div class="card" id="finished-card" style="width: 29rem;">
+        <div class="card-body">
+            <h3 class="card-title">All Done!</h3>
+            <p class="card-text">You final score is <span id="final-score"></span>.</p>
+            <form class="row">
+                <div class="col">
+                    <label>Enter initials:</label>
                 </div>
-            </div>
+                <div class="col">
+                    <input type="text" id="initials-input">
+                </div>
+                <div class="col">
+                    <button class="btn btn-primary" id = "submit-high-score">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- highscores card -->
+    <div class="card" id="highscores-card" style="width: 29rem;">
+        <div class="card-body">
+            <h2 class="card-title" id= "highscores-title">Highscores</h2>
+            <ol id="highscore-list"></ol>
+            <button class="btn" id="go-back-btn">Go Back</button>
+            <button class="btn" id="clear-scores-btn">Clear High Scores</button>
+        </div>
+    </div>
 
 
 
