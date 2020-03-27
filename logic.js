@@ -183,7 +183,7 @@ function finishQuiz() {
 function navBeginning() {
     secondsLeft = 75;
     timerEl.textContent = secondsLeft;
-    clearInterval(timer);
+    // clearInterval(timer);
     displayIntro();
 };
 
