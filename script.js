@@ -17,6 +17,7 @@ var timer;
 var secondsLeft;
 var finalScore;
 var highscoreArr = [];
+var initials;
 
 // Function constructor for Question object
 function Question(ask, answers, corrAns) {
@@ -208,7 +209,7 @@ function startTimer() {
 // Function that adds user score to high score list
 function addNewHighscore() {
     // gets initials from user input
-    var initials = initialsInputEl.value;
+    initials = initialsInputEl.value;
 
     // checks to make sure input is not blank
     if (initials.trim() !== "") {
@@ -233,8 +234,10 @@ function setLocalStorage() {
 function init() {
     var scores = localStorage.getItem("highscores");
     var JSONscores = JSON.parse(scores);
-    highscoreArr = JSONscores;
-    if (highscoreArr !== null) {
+
+    // only pulls if there are scores to pull
+    if (JSONscores !== null) {
+        highscoreArr = JSONscores;
         renderHighscores();
     }
     navBeginning();
