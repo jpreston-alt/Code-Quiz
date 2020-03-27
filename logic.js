@@ -1,5 +1,3 @@
-// calls initialze function to start program
-init();
 
 // Pull elements you need from HTML- save to variables
 var timerEl = document.getElementById("timer");
@@ -291,6 +289,9 @@ viewHighscoreEl.addEventListener("click", function(event) {
     event.preventDefault();
     displayHighscores();
 });
+
+// calls initialze function to start program
+init();
 
 
 
