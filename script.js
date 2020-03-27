@@ -265,14 +265,14 @@ document.getElementById("start-btn").addEventListener("click", function(event) {
     askQuestion(q1);
 });
 
-// A event listener to submit score button on quiz finished page
+// Add event listener to submit score button on quiz finished page
 submitScoreEl.addEventListener("click", function(event) {
     event.preventDefault();
     addNewHighscore();
     displayHighscores();
 });
 
-// A event listener to go back button on high score page
+// Add event listener to go back button on high score page
 goBackEl.addEventListener("click", function(event) {
     event.preventDefault();
 
