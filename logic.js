@@ -189,7 +189,7 @@ function navBeginning() {
 
 // Create a timer function
 function startTimer() {
-    clearInterval(timer);
+
     timer = setInterval(function () {
         secondsLeft--;
 
