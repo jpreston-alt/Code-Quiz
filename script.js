@@ -234,7 +234,7 @@ function init() {
     var scores = localStorage.getItem("highscores");
     var JSONscores = JSON.parse(scores);
     highscoreArr = JSONscores;
-    if (JSONscores !== []) {
+    if (highscoreArr !== null) {
         renderHighscores();
     }
     navBeginning();
