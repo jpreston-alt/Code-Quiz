@@ -218,7 +218,7 @@ function addNewHighscore() {
         var li = document.createElement("li");
         highscoreArr.push({ initials, finalScore });
         li.textContent = initials + " - " + finalScore;
-        document.getElementById("highscore-list").append(li);
+        document.getElementById("highscore-list").appendChild(li);
     }
     // pushes new score to local storage
     setLocalStorage();
@@ -253,7 +253,7 @@ function renderHighscores() {
         var name = highscoreArr[i].initials;
         var score = highscoreArr[i].finalScore;
         li.textContent = name + " - " + score;
-        document.getElementById("highscore-list").append(li);
+        document.getElementById("highscore-list").appendChild(li);
     }
 };
 
